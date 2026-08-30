@@ -9,86 +9,101 @@
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;500&display=swap" rel="stylesheet">
 <style>
 :root{
-  --ink:#0b1220; --ink2:#101a2e; --text:#e8eef5; --muted:#8b99ac;
-  --glow:#7fd8c8; --glow-dim:rgba(127,216,200,.14); --ring:rgba(127,216,200,.35);
-  --warn:#e0b36a;
+  --bg1:#f6f8f9; --bg2:#e7edf0; --text:#243038; --muted:#6b7a85;
+  --accent:#2f8f81; --accent-dim:rgba(47,143,129,.12); --ring:rgba(47,143,129,.4);
+  --warn:#a8742a; --line:#c9d4da;
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{height:100%}
 body{
   font-family:'Outfit',system-ui,sans-serif;
-  background:radial-gradient(120% 120% at 50% 20%, var(--ink2) 0%, var(--ink) 65%);
+  background:radial-gradient(120% 120% at 50% 18%, var(--bg1) 0%, var(--bg2) 70%);
   color:var(--text); display:flex; flex-direction:column; align-items:center;
-  min-height:100dvh; padding:20px 14px calc(20px + env(safe-area-inset-bottom));
+  min-height:100dvh; padding:18px 12px calc(18px + env(safe-area-inset-bottom));
   -webkit-tap-highlight-color:transparent; user-select:none;
 }
-h1{font-weight:200; font-size:20px; letter-spacing:.35em; text-transform:uppercase; color:var(--muted); margin:6px 0 16px}
-.cats{display:flex; flex-wrap:wrap; gap:6px; justify-content:center; margin-bottom:12px}
+h1{font-weight:300; font-size:20px; letter-spacing:.35em; text-transform:uppercase; color:var(--muted); margin:4px 0 14px}
+.cats{display:flex; flex-wrap:wrap; gap:2px 6px; justify-content:center; margin-bottom:10px; max-width:560px}
 .cat{
   border:none; background:transparent; color:var(--muted); font-family:inherit;
-  font-size:12px; letter-spacing:.14em; text-transform:uppercase; padding:7px 12px;
+  font-size:12px; letter-spacing:.12em; text-transform:uppercase; padding:7px 10px;
   border-bottom:1px solid transparent; cursor:pointer; transition:all .25s ease;
 }
 .cat:hover{color:var(--text)}
-.cat.active{color:var(--glow); border-bottom-color:var(--glow)}
-.patterns{display:flex; flex-wrap:wrap; gap:8px; justify-content:center; max-width:560px; min-height:38px}
+.cat.active{color:var(--accent); border-bottom-color:var(--accent)}
+.patterns{display:flex; flex-wrap:wrap; gap:8px; justify-content:center; max-width:560px; min-height:38px; padding:0 4px}
 .chip{
-  border:1px solid rgba(139,153,172,.35); background:transparent; color:var(--muted);
+  border:1px solid var(--line); background:rgba(255,255,255,.6); color:var(--muted);
   border-radius:999px; padding:8px 14px; font-family:inherit; font-size:13px; cursor:pointer;
   transition:all .25s ease;
 }
 .chip:hover{border-color:var(--ring); color:var(--text)}
-.chip.active{border-color:var(--glow); color:var(--glow); background:var(--glow-dim)}
-.chip:focus-visible,.btn:focus-visible,.cat:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid var(--glow); outline-offset:2px}
-.desc{margin-top:12px; font-size:13px; color:var(--muted); text-align:center; max-width:480px; min-height:18px; line-height:1.45}
-.caution{margin-top:6px; font-size:12px; color:var(--warn); text-align:center; max-width:480px; min-height:15px; line-height:1.4}
-.custom{display:none; gap:10px; margin-top:12px; align-items:end}
+.chip.active{border-color:var(--accent); color:var(--accent); background:var(--accent-dim)}
+.chip:focus-visible,.btn:focus-visible,.cat:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+.desc{margin-top:10px; font-size:13px; color:var(--muted); text-align:center; max-width:470px; min-height:18px; line-height:1.45; padding:0 8px; text-wrap:balance}
+.caution{margin-top:5px; font-size:12px; color:var(--warn); text-align:center; max-width:470px; min-height:15px; line-height:1.4; padding:0 8px; text-wrap:balance}
+.custom{display:none; gap:10px; margin-top:10px; align-items:end; justify-content:center; flex-wrap:wrap}
 .custom.show{display:flex}
 .custom label{font-size:11px; color:var(--muted); display:block; text-align:center; margin-bottom:4px}
 .custom input{
-  width:58px; background:rgba(255,255,255,.05); border:1px solid rgba(139,153,172,.35);
+  width:58px; background:#fff; border:1px solid var(--line);
   border-radius:8px; color:var(--text); font-family:inherit; font-size:15px; text-align:center; padding:7px 4px;
 }
-.stage{flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; width:100%; min-height:300px}
-.orb-wrap{position:relative; width:min(58vw,270px); aspect-ratio:1; display:flex; align-items:center; justify-content:center}
+.stage{flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; width:100%; min-height:260px}
+.orb-wrap{position:relative; width:min(52vw,240px); aspect-ratio:1; display:flex; align-items:center; justify-content:center}
 .halo{
   position:absolute; inset:-14%; border-radius:50%;
-  background:radial-gradient(circle, var(--glow-dim) 0%, transparent 62%);
+  background:radial-gradient(circle, rgba(47,143,129,.14) 0%, transparent 62%);
   transform:scale(var(--s,0.72)); transition:transform .15s linear;
 }
 .ring{
   position:absolute; inset:0; border-radius:50%; border:1px solid var(--ring);
   transform:scale(var(--s,0.72)); transition:transform .15s linear;
 }
+.ringHold{
+  position:absolute; inset:-6%; border-radius:50%;
+  border:1.5px dashed rgba(47,143,129,.5);
+  opacity:0; transition:opacity .4s ease;
+  animation:spin 14s linear infinite;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
 .orb{
   position:absolute; inset:8%; border-radius:50%;
-  background:radial-gradient(circle at 38% 32%, rgba(127,216,200,.5), rgba(127,216,200,.12) 55%, rgba(127,216,200,.05) 75%);
-  box-shadow:0 0 60px rgba(127,216,200,.18), inset 0 0 40px rgba(127,216,200,.1);
-  transform:scale(var(--s,0.72)); transition:transform .15s linear;
+  background:radial-gradient(circle at 38% 32%, rgba(47,143,129,.38), rgba(47,143,129,.14) 55%, rgba(47,143,129,.06) 78%);
+  box-shadow:0 6px 40px rgba(47,143,129,.18), inset 0 0 34px rgba(255,255,255,.5);
+  transform:scale(var(--s,0.72)); transition:transform .15s linear, filter .2s ease;
   display:flex; align-items:center; justify-content:center;
 }
-.count{font-weight:200; font-size:clamp(40px,11vw,58px); color:var(--text); font-variant-numeric:tabular-nums}
-.phase{margin-top:22px; font-weight:300; font-size:21px; letter-spacing:.18em; text-transform:uppercase; min-height:28px; color:var(--glow); text-align:center}
-.sub{margin-top:8px; font-size:13px; color:var(--muted); min-height:18px; font-variant-numeric:tabular-nums}
-.controls{display:flex; gap:12px; align-items:center; margin-top:6px; flex-wrap:wrap; justify-content:center}
+.count{font-weight:200; font-size:clamp(38px,10vw,54px); color:var(--text); font-variant-numeric:tabular-nums}
+.phase{margin-top:18px; font-weight:400; font-size:19px; letter-spacing:.16em; text-transform:uppercase; min-height:26px; color:var(--accent); text-align:center; padding:0 8px}
+.wave{margin-top:10px; display:block}
+.sub{margin-top:6px; font-size:13px; color:var(--muted); min-height:18px; font-variant-numeric:tabular-nums; text-align:center}
+.controls{display:flex; gap:12px; align-items:center; margin-top:4px; flex-wrap:wrap; justify-content:center}
 .btn{
   font-family:inherit; font-size:15px; letter-spacing:.12em; text-transform:uppercase;
   padding:12px 34px; border-radius:999px; cursor:pointer; transition:all .25s ease;
-  border:1px solid var(--glow); background:var(--glow-dim); color:var(--glow); font-weight:400;
+  border:1px solid var(--accent); background:var(--accent-dim); color:var(--accent); font-weight:400;
 }
-.btn:hover{background:rgba(127,216,200,.24)}
-.btn.ghost{border-color:rgba(139,153,172,.4); background:transparent; color:var(--muted); padding:12px 22px}
+.btn:hover{background:rgba(47,143,129,.2)}
+.btn.ghost{border-color:var(--line); background:transparent; color:var(--muted); padding:12px 22px}
 .btn.ghost:hover{color:var(--text)}
-.opts{display:flex; gap:16px; margin-top:14px; align-items:center; font-size:13px; color:var(--muted)}
+.opts{display:flex; gap:16px; margin-top:12px; align-items:center; font-size:13px; color:var(--muted); flex-wrap:wrap; justify-content:center}
 .opts select{
-  background:rgba(255,255,255,.05); border:1px solid rgba(139,153,172,.35); border-radius:8px;
+  background:#fff; border:1px solid var(--line); border-radius:8px;
   color:var(--text); font-family:inherit; font-size:13px; padding:6px 8px;
 }
 .tgl{display:flex; align-items:center; gap:7px; cursor:pointer}
-.tgl input{accent-color:var(--glow); width:15px; height:15px; cursor:pointer}
-.safety{margin-top:14px; font-size:11px; color:rgba(139,153,172,.7); text-align:center; max-width:420px; line-height:1.4}
+.tgl input{accent-color:var(--accent); width:15px; height:15px; cursor:pointer}
+.safety{margin-top:12px; font-size:11px; color:rgba(107,122,133,.8); text-align:center; max-width:420px; line-height:1.4; padding:0 10px}
+@media (max-width:380px){
+  h1{font-size:17px}
+  .cat{font-size:11px; padding:6px 8px}
+  .chip{font-size:12px; padding:7px 11px}
+  .btn{padding:11px 28px}
+}
 @media (prefers-reduced-motion: reduce){
   .orb,.ring,.halo{transition:none}
+  .ringHold{animation:none}
 }
 </style>
 </head>
@@ -111,9 +126,15 @@ h1{font-weight:200; font-size:20px; letter-spacing:.35em; text-transform:upperca
   <div class="orb-wrap" id="orbWrap">
     <div class="halo"></div>
     <div class="ring"></div>
-    <div class="orb"><span class="count" id="count">–</span></div>
+    <div class="ringHold" id="holdRing"></div>
+    <div class="orb" id="orb"><span class="count" id="count">–</span></div>
   </div>
   <div class="phase" id="phase">Ready</div>
+  <svg class="wave" id="wave" width="272" height="44" viewBox="0 0 272 44" aria-hidden="true">
+    <line x1="6" y1="38" x2="266" y2="38" stroke="rgba(107,122,133,.25)" stroke-width="1"/>
+    <path id="wavePath" fill="none" stroke="rgba(47,143,129,.45)" stroke-width="2" stroke-linecap="round" d="M6,38 L266,38"/>
+    <circle id="waveDot" r="5" cx="6" cy="38" fill="#2f8f81" opacity="0"/>
+  </svg>
   <div class="sub" id="sub">Choose a pattern, then start</div>
 </div>
 
@@ -191,7 +212,7 @@ const PRESETS=[
 
 // ——— BALANCE / AUTONOMIC ———
 {id:'coh55',cat:'bal',name:'Coherent 5.5',cyc:20,
- desc:'≈55 breaths per 10 min — the resonance zone where heart-rate variability peaks. Daily autonomic tune-up.',
+ desc:'≈5.5 breaths per minute — the resonance zone where heart-rate variability peaks. Daily autonomic tune-up.',
  steps:[I(5.5),O(5.5)]},
 {id:'res46',cat:'bal',name:'Resonance 4-6',cyc:20,
  desc:'Same 6-breaths-per-minute zone, tilted toward exhale for a calmer lean.',
@@ -262,8 +283,9 @@ const PRESETS=[
 
 const PHASE_FREQ={in:392,out:262,hold:330};
 const $=id=>document.getElementById(id);
-const orbWrap=$('orbWrap'), countEl=$('count'), phaseEl=$('phase'), subEl=$('sub');
+const orbWrap=$('orbWrap'), orbEl=$('orb'), countEl=$('count'), phaseEl=$('phase'), subEl=$('sub');
 const startBtn=$('startBtn'), stopBtn=$('stopBtn'), descEl=$('desc'), cautionEl=$('caution');
+const holdRing=$('holdRing'), wavePath=$('wavePath'), waveDot=$('waveDot');
 
 let activeCat='calm', selected=PRESETS[0];
 let running=false, raf=null, cycle=0, sessionStart=0, cur=0.62;
@@ -330,7 +352,7 @@ function blip(freq){
     const o=ac.createOscillator(), g=ac.createGain();
     o.type='sine'; o.frequency.value=freq;
     g.gain.setValueAtTime(0.0001,ac.currentTime);
-    g.gain.exponentialRampToValueAtTime(0.12,ac.currentTime+0.04);
+    g.gain.exponentialRampToValueAtTime(0.1,ac.currentTime+0.04);
     g.gain.exponentialRampToValueAtTime(0.0001,ac.currentTime+0.5);
     o.connect(g).connect(ac.destination);
     o.start(); o.stop(ac.currentTime+0.55);
@@ -338,14 +360,26 @@ function blip(freq){
 }
 
 const S_MIN=0.62,S_MAX=1.0;
+const lvlOf=s=>(s-S_MIN)/(S_MAX-S_MIN);          // 0..1
+const waveY=l=>38-28*Math.max(0,Math.min(1,l));   // 38 (empty) .. 10 (full)
 function setScale(s){cur=s; orbWrap.style.setProperty('--s',s.toFixed(4));}
 function fmt(sec){const m=Math.floor(sec/60),s=Math.floor(sec%60);return m+':'+String(s).padStart(2,'0');}
+
+function drawWave(y0,y1){
+  wavePath.setAttribute('d','M6,'+y0.toFixed(1)+' C 96,'+y0.toFixed(1)+' 176,'+y1.toFixed(1)+' 266,'+y1.toFixed(1));
+}
+function resetWave(){
+  drawWave(38,38);
+  waveDot.setAttribute('opacity','0');
+  waveDot.setAttribute('cx','6'); waveDot.setAttribute('cy','38');
+}
 
 function start(){
   const steps=getSteps();
   if(!steps||!steps.length){subEl.textContent='Pattern needs at least one phase';return;}
   running=true;cycle=0;sessionStart=performance.now();
   startBtn.style.display='none';stopBtn.style.display='';
+  waveDot.setAttribute('opacity','1');
   runCycle(steps);
 }
 function runCycle(steps){
@@ -365,12 +399,19 @@ function runStep(steps,idx){
            : st.a==='out'? (fast?0.7:S_MIN)
            : cur;
   phaseEl.textContent=st.l;
+  // per-phase visuals: dashed ring rotates during holds; orb brightens on energetic quick inhales
+  holdRing.style.opacity = st.a==='hold' ? '1' : '0';
+  orbEl.style.filter = (fast && st.a==='in') ? 'brightness(1.14) saturate(1.15)' : '';
+  const y0=waveY(lvlOf(from)), y1=waveY(lvlOf(to));
+  drawWave(y0,y1);
   if(st.t>=2) blip(PHASE_FREQ[st.a]||330);
   function tick(now){
     if(!running)return;
     const el=now-t0,p=Math.min(1,el/dur);
     const e=p<0.5?2*p*p:1-Math.pow(-2*p+2,2)/2;
     setScale(from+(to-from)*e);
+    waveDot.setAttribute('cx',(6+260*p).toFixed(1));
+    waveDot.setAttribute('cy',(y0+(y1-y0)*e).toFixed(1));
     countEl.textContent=st.t>=2?Math.ceil((dur-el)/1000):'·';
     const target=parseInt($('cycles').value,10);
     subEl.textContent='Cycle '+cycle+(target>0?' of '+target:'')+' · '+fmt((now-sessionStart)/1000);
@@ -395,12 +436,16 @@ function stopCore(){
   if(raf)cancelAnimationFrame(raf);
   countEl.textContent='–';
   setScale(0.72);
+  holdRing.style.opacity='0';
+  orbEl.style.filter='';
+  resetWave();
   startBtn.style.display='';stopBtn.style.display='none';
 }
 
 startBtn.onclick=start;
 stopBtn.onclick=stop;
 setScale(0.72);
+resetWave();
 renderChips();
 </script>
 </body>
