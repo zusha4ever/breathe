@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Breathe</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0b1220; --ink2:#101a2e; --text:#e8eef5; --muted:#8b99ac;
+  --glow:#7fd8c8; --glow-dim:rgba(127,216,200,.14); --ring:rgba(127,216,200,.35);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%}
+body{
+  font-family:'Outfit',system-ui,sans-serif;
+  background:radial-gradient(120% 120% at 50% 20%, var(--ink2) 0%, var(--ink) 65%);
+  color:var(--text); display:flex; flex-direction:column; align-items:center;
+  min-height:100dvh; padding:24px 16px calc(24px + env(safe-area-inset-bottom));
+  -webkit-tap-highlight-color:transparent; user-select:none;
+}
+h1{font-weight:200; font-size:22px; letter-spacing:.35em; text-transform:uppercase; color:var(--muted); margin:8px 0 20px}
+.patterns{display:flex; flex-wrap:wrap; gap:8px; justify-content:center; max-width:520px}
+.chip{
+  border:1px solid rgba(139,153,172,.35); background:transparent; color:var(--muted);
+  border-radius:999px; padding:8px 14px; font-family:inherit; font-size:13px; cursor:pointer;
+  transition:all .25s ease;
+}
+.chip:hover{border-color:var(--ring); color:var(--text)}
+.chip.active{border-color:var(--glow); color:var(--glow); background:var(--glow-dim)}
+.chip:focus-visible,.btn:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid var(--glow); outline-offset:2px}
+.custom{display:none; gap:10px; margin-top:14px; align-items:end}
+.custom.show{display:flex}
+.custom label{font-size:11px; color:var(--muted); display:block; text-align:center; margin-bottom:4px}
+.custom input{
+  width:58px; background:rgba(255,255,255,.05); border:1px solid rgba(139,153,172,.35);
+  border-radius:8px; color:var(--text); font-family:inherit; font-size:15px; text-align:center; padding:7px 4px;
+}
+.stage{flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; width:100%; min-height:340px}
+.orb-wrap{position:relative; width:min(64vw,300px); aspect-ratio:1; display:flex; align-items:center; justify-content:center}
+.halo{
+  position:absolute; inset:-14%; border-radius:50%;
+  background:radial-gradient(circle, var(--glow-dim) 0%, transparent 62%);
+  transform:scale(var(--s,0.72)); transition:transform .2s linear;
+}
+.ring{
+  position:absolute; inset:0; border-radius:50%; border:1px solid var(--ring);
+  transform:scale(var(--s,0.72)); transition:transform .2s linear;
+}
+.orb{
+  position:absolute; inset:8%; border-radius:50%;
+  background:radial-gradient(circle at 38% 32%, rgba(127,216,200,.5), rgba(127,216,200,.12) 55%, rgba(127,216,200,.05) 75%);
+  box-shadow:0 0 60px rgba(127,216,200,.18), inset 0 0 40px rgba(127,216,200,.1);
+  transform:scale(var(--s,0.72)); transition:transform .2s linear;
+  display:flex; align-items:center; justify-content:center;
+}
+.count{font-weight:200; font-size:clamp(44px,12vw,64px); color:var(--text); font-variant-numeric:tabular-nums}
+.phase{margin-top:26px; font-weight:300; font-size:24px; letter-spacing:.25em; text-transform:uppercase; min-height:32px; color:var(--glow)}
+.sub{margin-top:8px; font-size:13px; color:var(--muted); min-height:18px; font-variant-numeric:tabular-nums}
+.controls{display:flex; gap:12px; align-items:center; margin-top:8px; flex-wrap:wrap; justify-content:center}
+.btn{
+  font-family:inherit; font-size:15px; letter-spacing:.12em; text-transform:uppercase;
+  padding:12px 34px; border-radius:999px; cursor:pointer; transition:all .25s ease;
+  border:1px solid var(--glow); background:var(--glow-dim); color:var(--glow); font-weight:400;
+}
+.btn:hover{background:rgba(127,216,200,.24)}
+.btn.ghost{border-color:rgba(139,153,172,.4); background:transparent; color:var(--muted); padding:12px 22px}
+.btn.ghost:hover{color:var(--text)}
+.opts{display:flex; gap:16px; margin-top:16px; align-items:center; font-size:13px; color:var(--muted)}
+.opts select{
+  background:rgba(255,255,255,.05); border:1px solid rgba(139,153,172,.35); border-radius:8px;
+  color:var(--text); font-family:inherit; font-size:13px; padding:6px 8px;
+}
+.tgl{display:flex; align-items:center; gap:7px; cursor:pointer}
+.tgl input{accent-color:var(--glow); width:15px; height:15px; cursor:pointer}
+@media (prefers-reduced-motion: reduce){
+  .orb,.ring,.halo{transition:none}
+}
+</style>
+</head>
+<body>
+<h1>Breathe</h1>
+
+<div class="patterns" id="patterns" role="tablist" aria-label="Breathing pattern"></div>
+
+<div class="custom" id="custom">
+  <div><label for="ci">Inhale</label><input id="ci" type="number" min="0" max="60" step="0.5" value="4" inputmode="decimal"></div>
+  <div><label for="ch1">Hold</label><input id="ch1" type="number" min="0" max="60" step="0.5" value="4" inputmode="decimal"></div>
+  <div><label for="ce">Exhale</label><input id="ce" type="number" min="0" max="60" step="0.5" value="4" inputmode="decimal"></div>
+  <div><label for="ch2">Hold</label><input id="ch2" type="number" min="0" max="60" step="0.5" value="4" inputmode="decimal"></div>
+</div>
+
+<div class="stage">
+  <div class="orb-wrap" id="orbWrap">
+    <div class="halo"></div>
+    <div class="ring"></div>
+    <div class="orb"><span class="count" id="count">–</span></div>
+  </div>
+  <div class="phase" id="phase">Ready</div>
+  <div class="sub" id="sub">Choose a pattern, then start</div>
+</div>
+
+<div class="controls">
+  <button class="btn" id="startBtn">Start</button>
+  <button class="btn ghost" id="stopBtn" style="display:none">Stop</button>
+</div>
+
+<div class="opts">
+  <span>Cycles
+    <select id="cycles">
+      <option value="0">∞</option>
+      <option value="5">5</option>
+      <option value="10" selected>10</option>
+      <option value="20">20</option>
+      <option value="30">30</option>
+    </select>
+  </span>
+  <label class="tgl"><input type="checkbox" id="sound"> Sound</label>
+</div>
+
+<script>
+const PATTERNS = [
+  {id:'478',  name:'4-7-8 Relax',   d:[4,7,8,0]},
+  {id:'box',  name:'Box 4-4-4-4',   d:[4,4,4,4]},
+  {id:'coh',  name:'Coherent 5.5',  d:[5.5,0,5.5,0]},
+  {id:'tri',  name:'Triangle 4-4-4',d:[4,4,4,0]},
+  {id:'calm', name:'Calm 4-6',      d:[4,0,6,0]},
+  {id:'cus',  name:'Custom',        d:null},
+];
+const PHASE_NAMES = ['Inhale','Hold','Exhale','Hold'];
+const $ = id => document.getElementById(id);
+const orbWrap=$('orbWrap'), countEl=$('count'), phaseEl=$('phase'), subEl=$('sub');
+const startBtn=$('startBtn'), stopBtn=$('stopBtn');
+
+let selected = PATTERNS[0];
+let running=false, raf=null, cycle=0, sessionStart=0;
+
+// pattern chips
+const pWrap=$('patterns');
+PATTERNS.forEach(p=>{
+  const b=document.createElement('button');
+  b.className='chip'+(p===selected?' active':'');
+  b.textContent=p.name; b.setAttribute('role','tab');
+  b.onclick=()=>{
+    if(running) stop();
+    selected=p;
+    [...pWrap.children].forEach(c=>c.classList.remove('active'));
+    b.classList.add('active');
+    $('custom').classList.toggle('show', p.id==='cus');
+  };
+  pWrap.appendChild(b);
+});
+
+function getDurations(){
+  if(selected.id!=='cus') return selected.d;
+  return ['ci','ch1','ce','ch2'].map(id=>Math.max(0, parseFloat($(id).value)||0));
+}
+
+// sound — soft sine blip on phase change
+let ac=null;
+function blip(freq){
+  if(!$('sound').checked) return;
+  try{
+    ac = ac || new (window.AudioContext||window.webkitAudioContext)();
+    if(ac.state==='suspended') ac.resume();
+    const o=ac.createOscillator(), g=ac.createGain();
+    o.type='sine'; o.frequency.value=freq;
+    g.gain.setValueAtTime(0.0001, ac.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.12, ac.currentTime+0.04);
+    g.gain.exponentialRampToValueAtTime(0.0001, ac.currentTime+0.5);
+    o.connect(g).connect(ac.destination);
+    o.start(); o.stop(ac.currentTime+0.55);
+  }catch(e){}
+}
+const PHASE_FREQ=[392, 330, 262, 330]; // G4, E4, C4, E4
+
+const S_MIN=0.62, S_MAX=1.0;
+function setScale(s){ orbWrap.style.setProperty('--s', s.toFixed(4)); }
+
+function fmt(sec){ const m=Math.floor(sec/60), s=Math.floor(sec%60); return m+':'+String(s).padStart(2,'0'); }
+
+function start(){
+  const d=getDurations();
+  if((d[0]+d[2])<=0){ subEl.textContent='Inhale + exhale must be more than zero'; return; }
+  running=true; cycle=0; sessionStart=performance.now();
+  startBtn.style.display='none'; stopBtn.style.display='';
+  runCycle(d);
+}
+
+function runCycle(d){
+  if(!running) return;
+  const target=parseInt($('cycles').value,10);
+  if(target>0 && cycle>=target){ finish(); return; }
+  cycle++;
+  runPhase(d, 0);
+}
+
+function runPhase(d, i){
+  if(!running) return;
+  // skip zero-length phases
+  while(i<4 && d[i]<=0) i++;
+  if(i>=4){ runCycle(d); return; }
+
+  const dur=d[i]*1000, t0=performance.now();
+  const fromS = i===0 ? S_MIN : (i===1 ? S_MAX : (i===2 ? S_MAX : S_MIN));
+  const toS   = i===0 ? S_MAX : (i===1 ? S_MAX : (i===2 ? S_MIN : S_MIN));
+  phaseEl.textContent=PHASE_NAMES[i];
+  blip(PHASE_FREQ[i]);
+
+  function tick(now){
+    if(!running) return;
+    const el=now-t0, p=Math.min(1, el/dur);
+    // ease in-out for breath phases, static for holds
+    const e = p<0.5 ? 2*p*p : 1-Math.pow(-2*p+2,2)/2;
+    setScale(fromS + (toS-fromS)*e);
+    countEl.textContent=Math.ceil((dur-el)/1000);
+    const target=parseInt($('cycles').value,10);
+    subEl.textContent='Cycle '+cycle+(target>0?' of '+target:'')+' \u00b7 '+fmt((now-sessionStart)/1000);
+    if(el<dur){ raf=requestAnimationFrame(tick); }
+    else runPhase(d, i+1);
+  }
+  raf=requestAnimationFrame(tick);
+}
+
+function finish(){
+  stopCore();
+  phaseEl.textContent='Done';
+  subEl.textContent=cycle+' cycles \u00b7 '+fmt((performance.now()-sessionStart)/1000);
+  blip(523);
+}
+function stop(){
+  stopCore();
+  phaseEl.textContent='Ready';
+  subEl.textContent='Choose a pattern, then start';
+}
+function stopCore(){
+  running=false;
+  if(raf) cancelAnimationFrame(raf);
+  countEl.textContent='\u2013';
+  setScale(0.72);
+  startBtn.style.display=''; stopBtn.style.display='none';
+}
+
+startBtn.onclick=start;
+stopBtn.onclick=stop;
+setScale(0.72);
+</script>
+</body>
+</html>
