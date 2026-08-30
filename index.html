@@ -40,8 +40,8 @@ h1{font-weight:300; font-size:20px; letter-spacing:.35em; text-transform:upperca
 .chip:hover{border-color:var(--ring); color:var(--text)}
 .chip.active{border-color:var(--accent); color:var(--accent); background:var(--accent-dim)}
 .chip:focus-visible,.btn:focus-visible,.cat:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
-.desc{margin-top:10px; font-size:13px; color:var(--muted); text-align:center; max-width:470px; min-height:18px; line-height:1.45; padding:0 8px; text-wrap:balance}
-.caution{margin-top:5px; font-size:12px; color:var(--warn); text-align:center; max-width:470px; min-height:15px; line-height:1.4; padding:0 8px; text-wrap:balance}
+.desc{margin-top:10px; font-size:13px; color:var(--muted); text-align:center; max-width:490px; min-height:36px; line-height:1.5; padding:0 10px; text-wrap:balance}
+.caution{margin-top:6px; font-size:12px; color:var(--warn); text-align:center; max-width:470px; min-height:15px; line-height:1.4; padding:0 10px; text-wrap:balance}
 .custom{display:none; gap:10px; margin-top:10px; align-items:end; justify-content:center; flex-wrap:wrap}
 .custom.show{display:flex}
 .custom label{font-size:11px; color:var(--muted); display:block; text-align:center; margin-bottom:4px}
@@ -49,36 +49,32 @@ h1{font-weight:300; font-size:20px; letter-spacing:.35em; text-transform:upperca
   width:58px; background:#fff; border:1px solid var(--line);
   border-radius:8px; color:var(--text); font-family:inherit; font-size:15px; text-align:center; padding:7px 4px;
 }
-.stage{flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; width:100%; min-height:260px}
-.orb-wrap{position:relative; width:min(52vw,240px); aspect-ratio:1; display:flex; align-items:center; justify-content:center}
+.stage{display:flex; flex-direction:column; align-items:center; justify-content:flex-start; width:100%; padding:18px 0 6px}
+.orb-wrap{position:relative; width:min(56vw,250px); aspect-ratio:1; display:flex; align-items:center; justify-content:center; margin-top:4px}
 .halo{
-  position:absolute; inset:-14%; border-radius:50%;
-  background:radial-gradient(circle, rgba(47,143,129,.14) 0%, transparent 62%);
+  position:absolute; inset:-12%; border-radius:50%;
+  background:radial-gradient(circle, rgba(47,143,129,.13) 0%, transparent 62%);
   transform:scale(var(--s,0.72)); transition:transform .15s linear;
 }
 .ring{
   position:absolute; inset:0; border-radius:50%; border:1px solid var(--ring);
   transform:scale(var(--s,0.72)); transition:transform .15s linear;
 }
-.ringHold{
-  position:absolute; inset:-6%; border-radius:50%;
-  border:1.5px dashed rgba(47,143,129,.5);
-  opacity:0; transition:opacity .4s ease;
-  animation:spin 14s linear infinite;
-}
-@keyframes spin{to{transform:rotate(360deg)}}
 .orb{
-  position:absolute; inset:8%; border-radius:50%;
-  background:radial-gradient(circle at 38% 32%, rgba(47,143,129,.38), rgba(47,143,129,.14) 55%, rgba(47,143,129,.06) 78%);
-  box-shadow:0 6px 40px rgba(47,143,129,.18), inset 0 0 34px rgba(255,255,255,.5);
+  position:absolute; inset:7%; border-radius:50%;
+  background:radial-gradient(circle at 38% 32%, rgba(47,143,129,.34), rgba(47,143,129,.13) 55%, rgba(47,143,129,.05) 78%);
+  box-shadow:0 6px 40px rgba(47,143,129,.16), inset 0 0 34px rgba(255,255,255,.5);
   transform:scale(var(--s,0.72)); transition:transform .15s linear, filter .2s ease;
   display:flex; align-items:center; justify-content:center;
 }
-.count{font-weight:200; font-size:clamp(38px,10vw,54px); color:var(--text); font-variant-numeric:tabular-nums}
-.phase{margin-top:18px; font-weight:400; font-size:19px; letter-spacing:.16em; text-transform:uppercase; min-height:26px; color:var(--accent); text-align:center; padding:0 8px}
-.wave{margin-top:10px; display:block}
-.sub{margin-top:6px; font-size:13px; color:var(--muted); min-height:18px; font-variant-numeric:tabular-nums; text-align:center}
-.controls{display:flex; gap:12px; align-items:center; margin-top:4px; flex-wrap:wrap; justify-content:center}
+.inner{position:absolute; inset:0; width:100%; height:100%}
+.inner .rip{fill:none; stroke:rgba(47,143,129,.5); stroke-width:1; opacity:0}
+.inner #holdDash{fill:none; stroke:rgba(47,143,129,.45); stroke-width:1.2; stroke-dasharray:3 5; opacity:0; transition:opacity .4s ease}
+.inner #prog{fill:none; stroke:rgba(47,143,129,.55); stroke-width:2; stroke-linecap:round; transform:rotate(-90deg); transform-origin:50% 50%}
+.count{position:relative; z-index:1; font-weight:200; font-size:clamp(36px,9.5vw,50px); color:var(--text); font-variant-numeric:tabular-nums}
+.phase{margin-top:20px; font-weight:400; font-size:19px; letter-spacing:.16em; text-transform:uppercase; min-height:26px; color:var(--accent); text-align:center; padding:0 8px}
+.sub{margin-top:8px; font-size:13px; color:var(--muted); min-height:18px; font-variant-numeric:tabular-nums; text-align:center}
+.controls{display:flex; gap:12px; align-items:center; margin-top:16px; flex-wrap:wrap; justify-content:center}
 .btn{
   font-family:inherit; font-size:15px; letter-spacing:.12em; text-transform:uppercase;
   padding:12px 34px; border-radius:999px; cursor:pointer; transition:all .25s ease;
@@ -87,14 +83,14 @@ h1{font-weight:300; font-size:20px; letter-spacing:.35em; text-transform:upperca
 .btn:hover{background:rgba(47,143,129,.2)}
 .btn.ghost{border-color:var(--line); background:transparent; color:var(--muted); padding:12px 22px}
 .btn.ghost:hover{color:var(--text)}
-.opts{display:flex; gap:16px; margin-top:12px; align-items:center; font-size:13px; color:var(--muted); flex-wrap:wrap; justify-content:center}
+.opts{display:flex; gap:16px; margin-top:16px; align-items:center; font-size:13px; color:var(--muted); flex-wrap:wrap; justify-content:center}
 .opts select{
   background:#fff; border:1px solid var(--line); border-radius:8px;
   color:var(--text); font-family:inherit; font-size:13px; padding:6px 8px;
 }
 .tgl{display:flex; align-items:center; gap:7px; cursor:pointer}
 .tgl input{accent-color:var(--accent); width:15px; height:15px; cursor:pointer}
-.safety{margin-top:12px; font-size:11px; color:rgba(107,122,133,.8); text-align:center; max-width:420px; line-height:1.4; padding:0 10px}
+.safety{margin:16px 0 4px; font-size:11px; color:rgba(107,122,133,.8); text-align:center; max-width:420px; line-height:1.4; padding:0 10px}
 @media (max-width:380px){
   h1{font-size:17px}
   .cat{font-size:11px; padding:6px 8px}
@@ -103,7 +99,6 @@ h1{font-weight:300; font-size:20px; letter-spacing:.35em; text-transform:upperca
 }
 @media (prefers-reduced-motion: reduce){
   .orb,.ring,.halo{transition:none}
-  .ringHold{animation:none}
 }
 </style>
 </head>
@@ -126,15 +121,18 @@ h1{font-weight:300; font-size:20px; letter-spacing:.35em; text-transform:upperca
   <div class="orb-wrap" id="orbWrap">
     <div class="halo"></div>
     <div class="ring"></div>
-    <div class="ringHold" id="holdRing"></div>
-    <div class="orb" id="orb"><span class="count" id="count">–</span></div>
+    <div class="orb" id="orb">
+      <svg class="inner" viewBox="0 0 100 100" aria-hidden="true">
+        <circle class="rip" id="rip0" cx="50" cy="50" r="20"/>
+        <circle class="rip" id="rip1" cx="50" cy="50" r="30"/>
+        <circle class="rip" id="rip2" cx="50" cy="50" r="40"/>
+        <circle id="holdDash" cx="50" cy="50" r="40"/>
+        <circle id="prog" cx="50" cy="50" r="46" stroke-dasharray="289.03" stroke-dashoffset="289.03"/>
+      </svg>
+      <span class="count" id="count">–</span>
+    </div>
   </div>
   <div class="phase" id="phase">Ready</div>
-  <svg class="wave" id="wave" width="272" height="44" viewBox="0 0 272 44" aria-hidden="true">
-    <line x1="6" y1="38" x2="266" y2="38" stroke="rgba(107,122,133,.25)" stroke-width="1"/>
-    <path id="wavePath" fill="none" stroke="rgba(47,143,129,.45)" stroke-width="2" stroke-linecap="round" d="M6,38 L266,38"/>
-    <circle id="waveDot" r="5" cx="6" cy="38" fill="#2f8f81" opacity="0"/>
-  </svg>
   <div class="sub" id="sub">Choose a pattern, then start</div>
 </div>
 
@@ -178,105 +176,105 @@ const CATS=[
 const PRESETS=[
 // ——— CALM & PANIC ———
 {id:'sigh',cat:'calm',name:'Cyclic Sigh',cyc:10,
- desc:'Stanford-tested top performer for fast calm. Two nose inhales re-open lung sacs; long mouth exhale downshifts the nervous system.',
+ desc:'Fastest evidence-backed way to break acute stress — Stanford’s top performer. Big inhale through the nose, a short second sniff to fully top up the lungs, then one long slow sigh out the mouth, longer than both inhales combined.',
  steps:[I(2.5,'Inhale · nose',0.86),I(1,'Top-up inhale',1),O(7,'Exhale · mouth')]},
 {id:'box',cat:'calm',name:'Box 4-4-4-4',cyc:10,
- desc:'Equal four-count square. The tactical standard for steadying under pressure.',
+ desc:'The military and first-responder standard for staying level under pressure — the equal holds interrupt runaway breathing. In through the nose 4, hold 4, out 4, hold 4; drop the shoulders on every exhale.',
  steps:[I(4),H(4),O(4),H(4)]},
 {id:'711',cat:'calm',name:'7-11',cyc:10,
- desc:'Therapy favorite for panic: in for 7, out for 11. The long exhale does the work.',
+ desc:'A therapy staple for panic: counting to 11 occupies the racing mind while the long exhale slows the heart. In through the nose for 7, out for 11; if that feels too long, halve both numbers and keep the ratio.',
  steps:[I(7),O(11)]},
 {id:'ee48',cat:'calm',name:'Extended Exhale 4-8',cyc:10,
- desc:'Exhale twice the inhale — the simplest reliable brake on anxiety.',
+ desc:'Whenever the exhale outlasts the inhale, the vagus nerve brakes the heart on every out-breath. In through the nose 4, then out for 8 as if breathing through a straw — thin, slow, complete.',
  steps:[I(4),O(8)]},
 {id:'plb',cat:'calm',name:'Pursed-Lip 2-4',cyc:20,
- desc:'In through the nose, out slowly through pursed lips. Used clinically for breathlessness.',
+ desc:'A clinical technique from lung rehab for breathlessness and over-breathing. Sniff in through the nose for 2, then blow out gently for 4 through nearly closed lips, like cooling hot soup.',
  steps:[I(2,'Inhale · nose'),O(4,'Exhale · pursed lips')]},
 {id:'sama',cat:'calm',name:'Equal Breath 5-5',cyc:10,
- desc:'Sama Vritti — even, unhurried breath. A neutral reset anytime.',
+ desc:'Sama Vritti — yoga’s neutral gear. Evenness itself is regulating, making this the safe default when unsure what you need. Smooth nasal in for 5, out for 5, no pauses, no strain.',
  steps:[I(5),O(5)]},
 
 // ——— SLEEP ———
 {id:'478',cat:'sleep',name:'4-7-8',cyc:5,
- desc:'Dr. Weil’s pre-sleep classic. The long hold and slow exhale settle a racing mind.',
+ desc:'Dr. Weil’s pre-sleep classic: the hold lets CO₂ rise slightly, deepening the sedative pull of the long exhale. In through the nose 4, hold 7, out through the mouth 8 with a soft whoosh. Mild light-headedness at first is normal — stay seated or lying.',
  steps:[I(4),H(7),O(8,'Exhale · mouth')]},
 {id:'moon',cat:'sleep',name:'Moon Breath',cyc:10,
- desc:'Chandra Bhedana — in through the LEFT nostril only, out through the right. Yogic wind-down.',
+ desc:'Chandra Bhedana — in yogic tradition the left nostril is the cooling, lunar channel. Close the RIGHT nostril with your thumb, inhale left for 4, brief hold, then close the left and exhale right for 6.',
  steps:[I(4,'Inhale · left nostril'),H(2),O(6,'Exhale · right nostril')]},
 {id:'soft36',cat:'sleep',name:'Soft 3-6',cyc:10,
- desc:'Gentle low-effort wind-down for when 4-7-8 feels like too much.',
+ desc:'For exhausted evenings — the smallest dose that still shifts you toward sleep. A tiny nasal inhale for 3, an effortless release for 6, jaw loose, nothing forced.',
  steps:[I(3),O(6)]},
 {id:'deep468',cat:'sleep',name:'Deep 4-6-8',cyc:8,
- desc:'A gentler cousin of 4-7-8 — shorter hold, same long exhale.',
+ desc:'The same architecture as 4-7-8 with a friendlier hold — a good on-ramp before graduating to the full version. In 4, hold 6, out 8, letting the body get heavier with each round.',
  steps:[I(4),H(6),O(8)]},
 
 // ——— BALANCE / AUTONOMIC ———
 {id:'coh55',cat:'bal',name:'Coherent 5.5',cyc:20,
- desc:'≈5.5 breaths per minute — the resonance zone where heart-rate variability peaks. Daily autonomic tune-up.',
+ desc:'HRV research points to ≈5.5 breaths per minute as the resonance zone where heart and lungs synchronize. Nasal in 5.5, out 5.5, belly leading the movement; ten minutes daily builds the baseline over weeks.',
  steps:[I(5.5),O(5.5)]},
 {id:'res46',cat:'bal',name:'Resonance 4-6',cyc:20,
- desc:'Same 6-breaths-per-minute zone, tilted toward exhale for a calmer lean.',
+ desc:'The same six-breaths-per-minute resonance zone, tilted toward the exhale for a calmer lean. In through the nose 4, out 6 — steady, quiet, unhurried.',
  steps:[I(4),O(6)]},
 {id:'coh66',cat:'bal',name:'Coherent 6-6',cyc:20,
- desc:'Five breaths per minute. Slightly slower coherent variant.',
+ desc:'Five breaths per minute — a slightly slower coherent variant some find more natural. In 6, out 6, chest and belly moving together like a slow tide.',
  steps:[I(6),O(6)]},
 {id:'but',cat:'bal',name:'Buteyko Light',cyc:15,
- desc:'Reduced breathing: soft small breaths with a relaxed pause, building mild air hunger to raise CO₂ tolerance.',
+ desc:'Buteyko’s premise: chronic over-breathing depletes CO₂, and gentle under-breathing restores tolerance. Take small, quiet nasal breaths and a relaxed pause after each exhale — the air hunger should stay whisper-mild.',
  caution:'Gently. Air hunger should stay mild — never strain.',
  steps:[I(3,'Inhale · small, nose',0.82),O(4,'Exhale · soft'),H(3,'Relaxed pause')]},
 {id:'nadi',cat:'bal',name:'Alternate Nostril',cyc:8,
- desc:'Nadi Shodhana — the yogic balancer of left/right channels. Close one nostril with a finger as captioned.',
+ desc:'Nadi Shodhana — the yogic balancer of the two channels, superb before meditation or sleep. Thumb closes the right nostril: in left 4. Ring finger closes the left: out right 6, in right 4, then out left 6.',
  steps:[I(4,'Inhale · left nostril'),O(6,'Exhale · right nostril'),I(4,'Inhale · right nostril'),O(6,'Exhale · left nostril')]},
 {id:'nadih',cat:'bal',name:'Alt. Nostril + Hold',cyc:8,
- desc:'Same pattern with brief retentions — the intermediate form.',
+ desc:'The intermediate form: brief retentions after each inhale deepen the stilling effect. Same finger pattern, adding a soft 4-count hold with both nostrils closed before each exhale.',
  caution:'Skip the holds if new to breath retention.',
  steps:[I(4,'Inhale · left nostril'),H(4),O(6,'Exhale · right nostril'),I(4,'Inhale · right nostril'),H(4),O(6,'Exhale · left nostril')]},
 
 // ——— ENERGY / FOCUS ———
 {id:'wake',cat:'nrg',name:'Wake-Up 6-3',cyc:10,
- desc:'Inhale-weighted breathing nudges the system toward alertness — reverse of the calming ratios.',
+ desc:'Inhale-weighted breathing nudges the nervous system toward alertness — the mirror image of the calming ratios. Sit tall, draw a strong full inhale for 6, release briskly for 3.',
  steps:[I(6),O(3)]},
 {id:'ujjayi',cat:'nrg',name:'Ujjayi 5-5',cyc:15,
- desc:'Ocean breath — slight throat constriction makes a soft wave sound. Focus anchor from vinyasa yoga.',
+ desc:'Ocean breath: narrow the throat slightly, as if fogging glass with the mouth closed, so each breath makes a soft wave sound. The sound gives the wandering mind a handle. In 5, out 5, sound even on both.',
  steps:[I(5,'Inhale · ocean sound'),O(5,'Exhale · ocean sound')]},
 {id:'kapal',cat:'nrg',name:'Kapalabhati',cyc:3,
- desc:'Skull-shining breath: 30 sharp belly-snap exhales (inhale is passive), then a slow recovery breath. Clears and energizes.',
+ desc:'Skull-shining breath, a classical cleansing practice: the exhale is a quick snap of the belly toward the spine, the inhale a passive rebound. 30 snaps, then one slow recovery breath. Clears the head like a window thrown open.',
  caution:'Seated only. Not if pregnant, hypertensive, or heart/eye conditions. Stop if dizzy.',
  steps:[...rep(30,[I(0.5,'Passive in'),O(0.5,'Snap exhale')]),I(4,'Recovery inhale'),O(6,'Slow exhale')]},
 {id:'bhas',cat:'nrg',name:'Bhastrika',cyc:3,
- desc:'Bellows breath: 20 forceful equal in-out pumps, then one deep breath with a short hold. Heat and drive.',
+ desc:'Bellows breath: both inhale and exhale are forceful and equal, pumping from the diaphragm like working a fire bellows. 20 pumps, one deep inhale, a short hold, then a long slow release. Builds heat and drive.',
  caution:'Seated only. Same exclusions as Kapalabhati. Stop if dizzy.',
  steps:[...rep(20,[I(1,'Pump in'),O(1,'Pump out')]),I(4,'Deep inhale'),H(4),O(6,'Slow exhale')]},
 {id:'whm',cat:'nrg',name:'Wim Hof Round',cyc:3,
- desc:'Tummo-inspired: 30 full breaths, empty-lung retention ~1 min, then a 15-second full-lung hold. One cycle = one round.',
+ desc:'Tummo-inspired rounds of deliberate deep breathing followed by a long empty-lung hold — expect tingling and a mildly altered state. 30 full breaths (inhale fully, let the exhale fall out), empty the lungs, hold about a minute, then one deep inhale held 15 seconds.',
  caution:'SEATED OR LYING ONLY. Never in or near water, never driving or standing. Fainting is possible. Release the hold early whenever you need to.',
  steps:[...rep(30,[I(1.5,'Full inhale'),O(1.5,'Let go')]),O(2,'Empty the lungs'),H(60,'Hold · lungs empty'),I(2,'Deep inhale'),H(15,'Hold · lungs full'),O(3,'Release')]},
 
 // ——— TRADITIONS ———
 {id:'bhram',cat:'trad',name:'Bhramari',cyc:8,
- desc:'Humming-bee breath: exhale with a steady hum. The vibration is deeply settling — a monastery evening staple.',
+ desc:'Humming-bee breath, a monastery evening staple: hum steadily through the whole exhale with lips closed, feeling the vibration fill the skull. In through the nose 4, hum out for 8. Closing the ears with your fingers deepens it.',
  steps:[I(4,'Inhale · nose'),O(8,'Exhale · humming')]},
 {id:'sitali',cat:'trad',name:'Sitali',cyc:10,
- desc:'Cooling breath: inhale through a curled tongue like a straw, exhale through the nose. For heat, anger, agitation.',
+ desc:'Cooling breath for heat, anger, or agitation: curl the tongue into a straw and draw air over it — it arrives noticeably chilled. In through the tongue 4, close the mouth, exhale warm through the nose 6.',
  steps:[I(4,'Inhale · curled tongue'),O(6,'Exhale · nose')]},
 {id:'sitkari',cat:'trad',name:'Sitkari',cyc:10,
- desc:'The hissing-teeth variant of Sitali, for those who can’t curl the tongue (≈35% of people).',
+ desc:'The hissing-teeth variant of Sitali for the ≈35% who can’t curl the tongue. Teeth lightly together, lips parted — inhale hisses through the teeth for 4; close the mouth and exhale through the nose for 6.',
  steps:[I(4,'Inhale · through teeth'),O(6,'Exhale · nose')]},
 {id:'surya',cat:'trad',name:'Sun Breath',cyc:10,
- desc:'Surya Bhedana — in through the RIGHT nostril only, out through the left. The energizing mirror of Moon Breath.',
+ desc:'Surya Bhedana — the right nostril is the solar, energizing channel, making this the activating mirror of Moon Breath. Close the LEFT nostril, inhale right for 4, hold 2, then close the right and exhale left for 6.',
  steps:[I(4,'Inhale · right nostril'),H(2),O(6,'Exhale · left nostril')]},
 {id:'zen',cat:'trad',name:'Zen Long Exhale',cyc:10,
- desc:'Zazen-style: ordinary inhale, then a very long thin exhale, as if fogging cold glass. Count the breaths.',
+ desc:'Zazen-style breathing: an ordinary inhale, then an exhale drawn out thin as thread, as if fogging cold glass forever. Traditionally you count exhales one to ten, then begin again. In 4, out 10 or longer.',
  steps:[I(4),O(10,'Exhale · long and thin')]},
 {id:'tao',cat:'trad',name:'Taoist Slow 6-2-6-2',cyc:10,
- desc:'Slow abdominal breathing from Taoist practice — soft belly, breath barely audible.',
+ desc:'Slow abdominal breathing from Taoist practice: the belly rounds softly on the inhale and gently deflates on the exhale, the breath quiet enough not to disturb a feather. In 6, pause 2, out 6, pause 2.',
  steps:[I(6,'Inhale · belly'),H(2),O(6,'Exhale · belly'),H(2)]},
 {id:'vish1',cat:'trad',name:'Classical 3-12-6',cyc:6,
- desc:'The classical pranayama ratio 1:4:2 at a gentle base — inhale 3, hold 12, exhale 6.',
+ desc:'The classical pranayama ratio 1:4:2 at a gentle base — the long retention, four times the inhale, is meant to still the mind between breaths. In 3, hold 12, out 6, staying completely relaxed through the hold.',
  caution:'Long retention. Traditionally learned with a teacher; skip if new to holds.',
  steps:[I(3),H(12),O(6)]},
 {id:'vish2',cat:'trad',name:'Classical 4-16-8',cyc:6,
- desc:'Full 1:4:2 — the Hatha Yoga Pradipika benchmark. Advanced.',
+ desc:'The full 1:4:2 benchmark from the Hatha Yoga Pradipika — the classical measure of a mature practice. In 4, hold 16, out 8; the texts insist the breath be tamed “by slow degrees,” never by force.',
  caution:'Advanced retention. Seated only, never strain, exhale early if needed.',
  steps:[I(4),H(16),O(8)]},
 ];
@@ -285,7 +283,9 @@ const PHASE_FREQ={in:392,out:262,hold:330};
 const $=id=>document.getElementById(id);
 const orbWrap=$('orbWrap'), orbEl=$('orb'), countEl=$('count'), phaseEl=$('phase'), subEl=$('sub');
 const startBtn=$('startBtn'), stopBtn=$('stopBtn'), descEl=$('desc'), cautionEl=$('caution');
-const holdRing=$('holdRing'), wavePath=$('wavePath'), waveDot=$('waveDot');
+const holdDash=$('holdDash'), prog=$('prog');
+const rips=[$('rip0'),$('rip1'),$('rip2')];
+const PROG_C=289.03; // 2*pi*46
 
 let activeCat='calm', selected=PRESETS[0];
 let running=false, raf=null, cycle=0, sessionStart=0, cur=0.62;
@@ -308,7 +308,7 @@ function renderChips(){
   pWrap.innerHTML='';
   $('custom').classList.toggle('show', activeCat==='cus');
   if(activeCat==='cus'){
-    selected={id:'cus',name:'Custom',cyc:10,desc:'Set your own four-phase pattern.',steps:null};
+    selected={id:'cus',name:'Custom',cyc:10,desc:'Set your own four-phase pattern: inhale, hold, exhale, hold. Leave any phase at 0 to skip it.',steps:null};
     descEl.textContent=selected.desc; cautionEl.textContent='';
     return;
   }
@@ -360,18 +360,39 @@ function blip(freq){
 }
 
 const S_MIN=0.62,S_MAX=1.0;
-const lvlOf=s=>(s-S_MIN)/(S_MAX-S_MIN);          // 0..1
-const waveY=l=>38-28*Math.max(0,Math.min(1,l));   // 38 (empty) .. 10 (full)
 function setScale(s){cur=s; orbWrap.style.setProperty('--s',s.toFixed(4));}
 function fmt(sec){const m=Math.floor(sec/60),s=Math.floor(sec%60);return m+':'+String(s).padStart(2,'0');}
 
-function drawWave(y0,y1){
-  wavePath.setAttribute('d','M6,'+y0.toFixed(1)+' C 96,'+y0.toFixed(1)+' 176,'+y1.toFixed(1)+' 266,'+y1.toFixed(1));
+// ——— in-orb animation ———
+// prog arc fills clockwise over each phase; ripples move with the breath:
+// inhale: rings born at the center travel outward (lungs filling)
+// exhale: rings born at the rim collapse inward (lungs emptying)
+// hold: rings rest in place, gently glowing; dashed ring rotates slowly
+function paintInner(a, p, now){
+  prog.setAttribute('stroke-dashoffset', (PROG_C*(1-p)).toFixed(1));
+  if(a==='hold'){
+    holdDash.style.opacity='1';
+    holdDash.setAttribute('transform','rotate('+((now/90)%360).toFixed(1)+' 50 50)');
+    rips.forEach((r,i)=>{
+      r.setAttribute('r', String(18+i*10));
+      r.style.opacity=(0.18+0.12*Math.sin(now/500+i*2.1)).toFixed(2);
+    });
+  } else {
+    holdDash.style.opacity='0';
+    rips.forEach((r,i)=>{
+      const q=(p+i/3)%1;
+      const rad = a==='in' ? 6+38*q : 44-38*q;
+      r.setAttribute('r', rad.toFixed(1));
+      // fade as rings near their destination
+      const fade = a==='in' ? (1-q) : (1-q);
+      r.style.opacity=(0.42*fade*Math.min(1,q*4)).toFixed(2);
+    });
+  }
 }
-function resetWave(){
-  drawWave(38,38);
-  waveDot.setAttribute('opacity','0');
-  waveDot.setAttribute('cx','6'); waveDot.setAttribute('cy','38');
+function clearInner(){
+  prog.setAttribute('stroke-dashoffset', String(PROG_C));
+  holdDash.style.opacity='0';
+  rips.forEach(r=>{r.style.opacity='0';});
 }
 
 function start(){
@@ -379,7 +400,6 @@ function start(){
   if(!steps||!steps.length){subEl.textContent='Pattern needs at least one phase';return;}
   running=true;cycle=0;sessionStart=performance.now();
   startBtn.style.display='none';stopBtn.style.display='';
-  waveDot.setAttribute('opacity','1');
   runCycle(steps);
 }
 function runCycle(steps){
@@ -399,19 +419,14 @@ function runStep(steps,idx){
            : st.a==='out'? (fast?0.7:S_MIN)
            : cur;
   phaseEl.textContent=st.l;
-  // per-phase visuals: dashed ring rotates during holds; orb brightens on energetic quick inhales
-  holdRing.style.opacity = st.a==='hold' ? '1' : '0';
   orbEl.style.filter = (fast && st.a==='in') ? 'brightness(1.14) saturate(1.15)' : '';
-  const y0=waveY(lvlOf(from)), y1=waveY(lvlOf(to));
-  drawWave(y0,y1);
   if(st.t>=2) blip(PHASE_FREQ[st.a]||330);
   function tick(now){
     if(!running)return;
     const el=now-t0,p=Math.min(1,el/dur);
     const e=p<0.5?2*p*p:1-Math.pow(-2*p+2,2)/2;
     setScale(from+(to-from)*e);
-    waveDot.setAttribute('cx',(6+260*p).toFixed(1));
-    waveDot.setAttribute('cy',(y0+(y1-y0)*e).toFixed(1));
+    paintInner(st.a,p,now);
     countEl.textContent=st.t>=2?Math.ceil((dur-el)/1000):'·';
     const target=parseInt($('cycles').value,10);
     subEl.textContent='Cycle '+cycle+(target>0?' of '+target:'')+' · '+fmt((now-sessionStart)/1000);
@@ -436,16 +451,15 @@ function stopCore(){
   if(raf)cancelAnimationFrame(raf);
   countEl.textContent='–';
   setScale(0.72);
-  holdRing.style.opacity='0';
   orbEl.style.filter='';
-  resetWave();
+  clearInner();
   startBtn.style.display='';stopBtn.style.display='none';
 }
 
 startBtn.onclick=start;
 stopBtn.onclick=stop;
 setScale(0.72);
-resetWave();
+clearInner();
 renderChips();
 </script>
 </body>
