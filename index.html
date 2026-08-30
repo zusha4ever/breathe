@@ -11,6 +11,7 @@
 :root{
   --ink:#0b1220; --ink2:#101a2e; --text:#e8eef5; --muted:#8b99ac;
   --glow:#7fd8c8; --glow-dim:rgba(127,216,200,.14); --ring:rgba(127,216,200,.35);
+  --warn:#e0b36a;
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{height:100%}
@@ -18,11 +19,19 @@ body{
   font-family:'Outfit',system-ui,sans-serif;
   background:radial-gradient(120% 120% at 50% 20%, var(--ink2) 0%, var(--ink) 65%);
   color:var(--text); display:flex; flex-direction:column; align-items:center;
-  min-height:100dvh; padding:24px 16px calc(24px + env(safe-area-inset-bottom));
+  min-height:100dvh; padding:20px 14px calc(20px + env(safe-area-inset-bottom));
   -webkit-tap-highlight-color:transparent; user-select:none;
 }
-h1{font-weight:200; font-size:22px; letter-spacing:.35em; text-transform:uppercase; color:var(--muted); margin:8px 0 20px}
-.patterns{display:flex; flex-wrap:wrap; gap:8px; justify-content:center; max-width:520px}
+h1{font-weight:200; font-size:20px; letter-spacing:.35em; text-transform:uppercase; color:var(--muted); margin:6px 0 16px}
+.cats{display:flex; flex-wrap:wrap; gap:6px; justify-content:center; margin-bottom:12px}
+.cat{
+  border:none; background:transparent; color:var(--muted); font-family:inherit;
+  font-size:12px; letter-spacing:.14em; text-transform:uppercase; padding:7px 12px;
+  border-bottom:1px solid transparent; cursor:pointer; transition:all .25s ease;
+}
+.cat:hover{color:var(--text)}
+.cat.active{color:var(--glow); border-bottom-color:var(--glow)}
+.patterns{display:flex; flex-wrap:wrap; gap:8px; justify-content:center; max-width:560px; min-height:38px}
 .chip{
   border:1px solid rgba(139,153,172,.35); background:transparent; color:var(--muted);
   border-radius:999px; padding:8px 14px; font-family:inherit; font-size:13px; cursor:pointer;
@@ -30,36 +39,38 @@ h1{font-weight:200; font-size:22px; letter-spacing:.35em; text-transform:upperca
 }
 .chip:hover{border-color:var(--ring); color:var(--text)}
 .chip.active{border-color:var(--glow); color:var(--glow); background:var(--glow-dim)}
-.chip:focus-visible,.btn:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid var(--glow); outline-offset:2px}
-.custom{display:none; gap:10px; margin-top:14px; align-items:end}
+.chip:focus-visible,.btn:focus-visible,.cat:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid var(--glow); outline-offset:2px}
+.desc{margin-top:12px; font-size:13px; color:var(--muted); text-align:center; max-width:480px; min-height:18px; line-height:1.45}
+.caution{margin-top:6px; font-size:12px; color:var(--warn); text-align:center; max-width:480px; min-height:15px; line-height:1.4}
+.custom{display:none; gap:10px; margin-top:12px; align-items:end}
 .custom.show{display:flex}
 .custom label{font-size:11px; color:var(--muted); display:block; text-align:center; margin-bottom:4px}
 .custom input{
   width:58px; background:rgba(255,255,255,.05); border:1px solid rgba(139,153,172,.35);
   border-radius:8px; color:var(--text); font-family:inherit; font-size:15px; text-align:center; padding:7px 4px;
 }
-.stage{flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; width:100%; min-height:340px}
-.orb-wrap{position:relative; width:min(64vw,300px); aspect-ratio:1; display:flex; align-items:center; justify-content:center}
+.stage{flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; width:100%; min-height:300px}
+.orb-wrap{position:relative; width:min(58vw,270px); aspect-ratio:1; display:flex; align-items:center; justify-content:center}
 .halo{
   position:absolute; inset:-14%; border-radius:50%;
   background:radial-gradient(circle, var(--glow-dim) 0%, transparent 62%);
-  transform:scale(var(--s,0.72)); transition:transform .2s linear;
+  transform:scale(var(--s,0.72)); transition:transform .15s linear;
 }
 .ring{
   position:absolute; inset:0; border-radius:50%; border:1px solid var(--ring);
-  transform:scale(var(--s,0.72)); transition:transform .2s linear;
+  transform:scale(var(--s,0.72)); transition:transform .15s linear;
 }
 .orb{
   position:absolute; inset:8%; border-radius:50%;
   background:radial-gradient(circle at 38% 32%, rgba(127,216,200,.5), rgba(127,216,200,.12) 55%, rgba(127,216,200,.05) 75%);
   box-shadow:0 0 60px rgba(127,216,200,.18), inset 0 0 40px rgba(127,216,200,.1);
-  transform:scale(var(--s,0.72)); transition:transform .2s linear;
+  transform:scale(var(--s,0.72)); transition:transform .15s linear;
   display:flex; align-items:center; justify-content:center;
 }
-.count{font-weight:200; font-size:clamp(44px,12vw,64px); color:var(--text); font-variant-numeric:tabular-nums}
-.phase{margin-top:26px; font-weight:300; font-size:24px; letter-spacing:.25em; text-transform:uppercase; min-height:32px; color:var(--glow)}
+.count{font-weight:200; font-size:clamp(40px,11vw,58px); color:var(--text); font-variant-numeric:tabular-nums}
+.phase{margin-top:22px; font-weight:300; font-size:21px; letter-spacing:.18em; text-transform:uppercase; min-height:28px; color:var(--glow); text-align:center}
 .sub{margin-top:8px; font-size:13px; color:var(--muted); min-height:18px; font-variant-numeric:tabular-nums}
-.controls{display:flex; gap:12px; align-items:center; margin-top:8px; flex-wrap:wrap; justify-content:center}
+.controls{display:flex; gap:12px; align-items:center; margin-top:6px; flex-wrap:wrap; justify-content:center}
 .btn{
   font-family:inherit; font-size:15px; letter-spacing:.12em; text-transform:uppercase;
   padding:12px 34px; border-radius:999px; cursor:pointer; transition:all .25s ease;
@@ -68,13 +79,14 @@ h1{font-weight:200; font-size:22px; letter-spacing:.35em; text-transform:upperca
 .btn:hover{background:rgba(127,216,200,.24)}
 .btn.ghost{border-color:rgba(139,153,172,.4); background:transparent; color:var(--muted); padding:12px 22px}
 .btn.ghost:hover{color:var(--text)}
-.opts{display:flex; gap:16px; margin-top:16px; align-items:center; font-size:13px; color:var(--muted)}
+.opts{display:flex; gap:16px; margin-top:14px; align-items:center; font-size:13px; color:var(--muted)}
 .opts select{
   background:rgba(255,255,255,.05); border:1px solid rgba(139,153,172,.35); border-radius:8px;
   color:var(--text); font-family:inherit; font-size:13px; padding:6px 8px;
 }
 .tgl{display:flex; align-items:center; gap:7px; cursor:pointer}
 .tgl input{accent-color:var(--glow); width:15px; height:15px; cursor:pointer}
+.safety{margin-top:14px; font-size:11px; color:rgba(139,153,172,.7); text-align:center; max-width:420px; line-height:1.4}
 @media (prefers-reduced-motion: reduce){
   .orb,.ring,.halo{transition:none}
 }
@@ -83,7 +95,10 @@ h1{font-weight:200; font-size:22px; letter-spacing:.35em; text-transform:upperca
 <body>
 <h1>Breathe</h1>
 
-<div class="patterns" id="patterns" role="tablist" aria-label="Breathing pattern"></div>
+<div class="cats" id="cats"></div>
+<div class="patterns" id="patterns"></div>
+<div class="desc" id="desc"></div>
+<div class="caution" id="caution"></div>
 
 <div class="custom" id="custom">
   <div><label for="ci">Inhale</label><input id="ci" type="number" min="0" max="60" step="0.5" value="4" inputmode="decimal"></div>
@@ -111,6 +126,7 @@ h1{font-weight:200; font-size:22px; letter-spacing:.35em; text-transform:upperca
   <span>Cycles
     <select id="cycles">
       <option value="0">∞</option>
+      <option value="3">3</option>
       <option value="5">5</option>
       <option value="10" selected>10</option>
       <option value="20">20</option>
@@ -120,114 +136,253 @@ h1{font-weight:200; font-size:22px; letter-spacing:.35em; text-transform:upperca
   <label class="tgl"><input type="checkbox" id="sound"> Sound</label>
 </div>
 
+<div class="safety">Stop if dizzy, tingling, or unwell. Never practice breath holds or fast breathing in water, while driving, standing, or if pregnant / heart or blood-pressure conditions — check with a doctor first.</div>
+
 <script>
-const PATTERNS = [
-  {id:'478',  name:'4-7-8 Relax',   d:[4,7,8,0]},
-  {id:'box',  name:'Box 4-4-4-4',   d:[4,4,4,4]},
-  {id:'coh',  name:'Coherent 5.5',  d:[5.5,0,5.5,0]},
-  {id:'tri',  name:'Triangle 4-4-4',d:[4,4,4,0]},
-  {id:'calm', name:'Calm 4-6',      d:[4,0,6,0]},
-  {id:'cus',  name:'Custom',        d:null},
+// step: {l:label, t:seconds, a:'in'|'out'|'hold', to?:scale override}
+const rep=(n,steps)=>Array.from({length:n},()=>steps.map(s=>({...s}))).flat();
+const I=(t,l='Inhale',to)=>({l,t,a:'in',...(to?{to}:{})});
+const O=(t,l='Exhale')=>({l,t,a:'out'});
+const H=(t,l='Hold')=>({l,t,a:'hold'});
+
+const CATS=[
+  {id:'calm', name:'Calm & Panic'},
+  {id:'sleep',name:'Sleep'},
+  {id:'bal',  name:'Balance'},
+  {id:'nrg',  name:'Energy'},
+  {id:'trad', name:'Traditions'},
+  {id:'cus',  name:'Custom'},
 ];
-const PHASE_NAMES = ['Inhale','Hold','Exhale','Hold'];
-const $ = id => document.getElementById(id);
+
+const PRESETS=[
+// ——— CALM & PANIC ———
+{id:'sigh',cat:'calm',name:'Cyclic Sigh',cyc:10,
+ desc:'Stanford-tested top performer for fast calm. Two nose inhales re-open lung sacs; long mouth exhale downshifts the nervous system.',
+ steps:[I(2.5,'Inhale · nose',0.86),I(1,'Top-up inhale',1),O(7,'Exhale · mouth')]},
+{id:'box',cat:'calm',name:'Box 4-4-4-4',cyc:10,
+ desc:'Equal four-count square. The tactical standard for steadying under pressure.',
+ steps:[I(4),H(4),O(4),H(4)]},
+{id:'711',cat:'calm',name:'7-11',cyc:10,
+ desc:'Therapy favorite for panic: in for 7, out for 11. The long exhale does the work.',
+ steps:[I(7),O(11)]},
+{id:'ee48',cat:'calm',name:'Extended Exhale 4-8',cyc:10,
+ desc:'Exhale twice the inhale — the simplest reliable brake on anxiety.',
+ steps:[I(4),O(8)]},
+{id:'plb',cat:'calm',name:'Pursed-Lip 2-4',cyc:20,
+ desc:'In through the nose, out slowly through pursed lips. Used clinically for breathlessness.',
+ steps:[I(2,'Inhale · nose'),O(4,'Exhale · pursed lips')]},
+{id:'sama',cat:'calm',name:'Equal Breath 5-5',cyc:10,
+ desc:'Sama Vritti — even, unhurried breath. A neutral reset anytime.',
+ steps:[I(5),O(5)]},
+
+// ——— SLEEP ———
+{id:'478',cat:'sleep',name:'4-7-8',cyc:5,
+ desc:'Dr. Weil’s pre-sleep classic. The long hold and slow exhale settle a racing mind.',
+ steps:[I(4),H(7),O(8,'Exhale · mouth')]},
+{id:'moon',cat:'sleep',name:'Moon Breath',cyc:10,
+ desc:'Chandra Bhedana — in through the LEFT nostril only, out through the right. Yogic wind-down.',
+ steps:[I(4,'Inhale · left nostril'),H(2),O(6,'Exhale · right nostril')]},
+{id:'soft36',cat:'sleep',name:'Soft 3-6',cyc:10,
+ desc:'Gentle low-effort wind-down for when 4-7-8 feels like too much.',
+ steps:[I(3),O(6)]},
+{id:'deep468',cat:'sleep',name:'Deep 4-6-8',cyc:8,
+ desc:'A gentler cousin of 4-7-8 — shorter hold, same long exhale.',
+ steps:[I(4),H(6),O(8)]},
+
+// ——— BALANCE / AUTONOMIC ———
+{id:'coh55',cat:'bal',name:'Coherent 5.5',cyc:20,
+ desc:'≈55 breaths per 10 min — the resonance zone where heart-rate variability peaks. Daily autonomic tune-up.',
+ steps:[I(5.5),O(5.5)]},
+{id:'res46',cat:'bal',name:'Resonance 4-6',cyc:20,
+ desc:'Same 6-breaths-per-minute zone, tilted toward exhale for a calmer lean.',
+ steps:[I(4),O(6)]},
+{id:'coh66',cat:'bal',name:'Coherent 6-6',cyc:20,
+ desc:'Five breaths per minute. Slightly slower coherent variant.',
+ steps:[I(6),O(6)]},
+{id:'but',cat:'bal',name:'Buteyko Light',cyc:15,
+ desc:'Reduced breathing: soft small breaths with a relaxed pause, building mild air hunger to raise CO₂ tolerance.',
+ caution:'Gently. Air hunger should stay mild — never strain.',
+ steps:[I(3,'Inhale · small, nose',0.82),O(4,'Exhale · soft'),H(3,'Relaxed pause')]},
+{id:'nadi',cat:'bal',name:'Alternate Nostril',cyc:8,
+ desc:'Nadi Shodhana — the yogic balancer of left/right channels. Close one nostril with a finger as captioned.',
+ steps:[I(4,'Inhale · left nostril'),O(6,'Exhale · right nostril'),I(4,'Inhale · right nostril'),O(6,'Exhale · left nostril')]},
+{id:'nadih',cat:'bal',name:'Alt. Nostril + Hold',cyc:8,
+ desc:'Same pattern with brief retentions — the intermediate form.',
+ caution:'Skip the holds if new to breath retention.',
+ steps:[I(4,'Inhale · left nostril'),H(4),O(6,'Exhale · right nostril'),I(4,'Inhale · right nostril'),H(4),O(6,'Exhale · left nostril')]},
+
+// ——— ENERGY / FOCUS ———
+{id:'wake',cat:'nrg',name:'Wake-Up 6-3',cyc:10,
+ desc:'Inhale-weighted breathing nudges the system toward alertness — reverse of the calming ratios.',
+ steps:[I(6),O(3)]},
+{id:'ujjayi',cat:'nrg',name:'Ujjayi 5-5',cyc:15,
+ desc:'Ocean breath — slight throat constriction makes a soft wave sound. Focus anchor from vinyasa yoga.',
+ steps:[I(5,'Inhale · ocean sound'),O(5,'Exhale · ocean sound')]},
+{id:'kapal',cat:'nrg',name:'Kapalabhati',cyc:3,
+ desc:'Skull-shining breath: 30 sharp belly-snap exhales (inhale is passive), then a slow recovery breath. Clears and energizes.',
+ caution:'Seated only. Not if pregnant, hypertensive, or heart/eye conditions. Stop if dizzy.',
+ steps:[...rep(30,[I(0.5,'Passive in'),O(0.5,'Snap exhale')]),I(4,'Recovery inhale'),O(6,'Slow exhale')]},
+{id:'bhas',cat:'nrg',name:'Bhastrika',cyc:3,
+ desc:'Bellows breath: 20 forceful equal in-out pumps, then one deep breath with a short hold. Heat and drive.',
+ caution:'Seated only. Same exclusions as Kapalabhati. Stop if dizzy.',
+ steps:[...rep(20,[I(1,'Pump in'),O(1,'Pump out')]),I(4,'Deep inhale'),H(4),O(6,'Slow exhale')]},
+{id:'whm',cat:'nrg',name:'Wim Hof Round',cyc:3,
+ desc:'Tummo-inspired: 30 full breaths, empty-lung retention ~1 min, then a 15-second full-lung hold. One cycle = one round.',
+ caution:'SEATED OR LYING ONLY. Never in or near water, never driving or standing. Fainting is possible. Release the hold early whenever you need to.',
+ steps:[...rep(30,[I(1.5,'Full inhale'),O(1.5,'Let go')]),O(2,'Empty the lungs'),H(60,'Hold · lungs empty'),I(2,'Deep inhale'),H(15,'Hold · lungs full'),O(3,'Release')]},
+
+// ——— TRADITIONS ———
+{id:'bhram',cat:'trad',name:'Bhramari',cyc:8,
+ desc:'Humming-bee breath: exhale with a steady hum. The vibration is deeply settling — a monastery evening staple.',
+ steps:[I(4,'Inhale · nose'),O(8,'Exhale · humming')]},
+{id:'sitali',cat:'trad',name:'Sitali',cyc:10,
+ desc:'Cooling breath: inhale through a curled tongue like a straw, exhale through the nose. For heat, anger, agitation.',
+ steps:[I(4,'Inhale · curled tongue'),O(6,'Exhale · nose')]},
+{id:'sitkari',cat:'trad',name:'Sitkari',cyc:10,
+ desc:'The hissing-teeth variant of Sitali, for those who can’t curl the tongue (≈35% of people).',
+ steps:[I(4,'Inhale · through teeth'),O(6,'Exhale · nose')]},
+{id:'surya',cat:'trad',name:'Sun Breath',cyc:10,
+ desc:'Surya Bhedana — in through the RIGHT nostril only, out through the left. The energizing mirror of Moon Breath.',
+ steps:[I(4,'Inhale · right nostril'),H(2),O(6,'Exhale · left nostril')]},
+{id:'zen',cat:'trad',name:'Zen Long Exhale',cyc:10,
+ desc:'Zazen-style: ordinary inhale, then a very long thin exhale, as if fogging cold glass. Count the breaths.',
+ steps:[I(4),O(10,'Exhale · long and thin')]},
+{id:'tao',cat:'trad',name:'Taoist Slow 6-2-6-2',cyc:10,
+ desc:'Slow abdominal breathing from Taoist practice — soft belly, breath barely audible.',
+ steps:[I(6,'Inhale · belly'),H(2),O(6,'Exhale · belly'),H(2)]},
+{id:'vish1',cat:'trad',name:'Classical 3-12-6',cyc:6,
+ desc:'The classical pranayama ratio 1:4:2 at a gentle base — inhale 3, hold 12, exhale 6.',
+ caution:'Long retention. Traditionally learned with a teacher; skip if new to holds.',
+ steps:[I(3),H(12),O(6)]},
+{id:'vish2',cat:'trad',name:'Classical 4-16-8',cyc:6,
+ desc:'Full 1:4:2 — the Hatha Yoga Pradipika benchmark. Advanced.',
+ caution:'Advanced retention. Seated only, never strain, exhale early if needed.',
+ steps:[I(4),H(16),O(8)]},
+];
+
+const PHASE_FREQ={in:392,out:262,hold:330};
+const $=id=>document.getElementById(id);
 const orbWrap=$('orbWrap'), countEl=$('count'), phaseEl=$('phase'), subEl=$('sub');
-const startBtn=$('startBtn'), stopBtn=$('stopBtn');
+const startBtn=$('startBtn'), stopBtn=$('stopBtn'), descEl=$('desc'), cautionEl=$('caution');
 
-let selected = PATTERNS[0];
-let running=false, raf=null, cycle=0, sessionStart=0;
+let activeCat='calm', selected=PRESETS[0];
+let running=false, raf=null, cycle=0, sessionStart=0, cur=0.62;
 
-// pattern chips
-const pWrap=$('patterns');
-PATTERNS.forEach(p=>{
+const catWrap=$('cats'), pWrap=$('patterns');
+CATS.forEach(c=>{
   const b=document.createElement('button');
-  b.className='chip'+(p===selected?' active':'');
-  b.textContent=p.name; b.setAttribute('role','tab');
+  b.className='cat'+(c.id===activeCat?' active':'');
+  b.textContent=c.name;
   b.onclick=()=>{
-    if(running) stop();
-    selected=p;
-    [...pWrap.children].forEach(c=>c.classList.remove('active'));
+    activeCat=c.id;
+    [...catWrap.children].forEach(x=>x.classList.remove('active'));
     b.classList.add('active');
-    $('custom').classList.toggle('show', p.id==='cus');
+    renderChips();
   };
-  pWrap.appendChild(b);
+  catWrap.appendChild(b);
 });
 
-function getDurations(){
-  if(selected.id!=='cus') return selected.d;
-  return ['ci','ch1','ce','ch2'].map(id=>Math.max(0, parseFloat($(id).value)||0));
+function renderChips(){
+  pWrap.innerHTML='';
+  $('custom').classList.toggle('show', activeCat==='cus');
+  if(activeCat==='cus'){
+    selected={id:'cus',name:'Custom',cyc:10,desc:'Set your own four-phase pattern.',steps:null};
+    descEl.textContent=selected.desc; cautionEl.textContent='';
+    return;
+  }
+  const list=PRESETS.filter(p=>p.cat===activeCat);
+  list.forEach((p,idx)=>{
+    const b=document.createElement('button');
+    b.className='chip';
+    b.textContent=p.name;
+    b.onclick=()=>selectPreset(p,b);
+    pWrap.appendChild(b);
+    if(idx===0) selectPreset(p,b);
+  });
+}
+function selectPreset(p,btn){
+  if(running) stop();
+  selected=p;
+  [...pWrap.children].forEach(c=>c.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  descEl.textContent=p.desc||'';
+  cautionEl.textContent=p.caution||'';
+  if(p.cyc){ $('cycles').value=String(p.cyc); }
 }
 
-// sound — soft sine blip on phase change
+function getSteps(){
+  if(selected.id!=='cus') return selected.steps;
+  const v=['ci','ch1','ce','ch2'].map(id=>Math.max(0,parseFloat($(id).value)||0));
+  const s=[];
+  if(v[0]>0)s.push(I(v[0]));
+  if(v[1]>0)s.push(H(v[1]));
+  if(v[2]>0)s.push(O(v[2]));
+  if(v[3]>0)s.push(H(v[3]));
+  return s;
+}
+
 let ac=null;
 function blip(freq){
   if(!$('sound').checked) return;
   try{
-    ac = ac || new (window.AudioContext||window.webkitAudioContext)();
+    ac=ac||new (window.AudioContext||window.webkitAudioContext)();
     if(ac.state==='suspended') ac.resume();
     const o=ac.createOscillator(), g=ac.createGain();
     o.type='sine'; o.frequency.value=freq;
-    g.gain.setValueAtTime(0.0001, ac.currentTime);
-    g.gain.exponentialRampToValueAtTime(0.12, ac.currentTime+0.04);
-    g.gain.exponentialRampToValueAtTime(0.0001, ac.currentTime+0.5);
+    g.gain.setValueAtTime(0.0001,ac.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.12,ac.currentTime+0.04);
+    g.gain.exponentialRampToValueAtTime(0.0001,ac.currentTime+0.5);
     o.connect(g).connect(ac.destination);
     o.start(); o.stop(ac.currentTime+0.55);
   }catch(e){}
 }
-const PHASE_FREQ=[392, 330, 262, 330]; // G4, E4, C4, E4
 
-const S_MIN=0.62, S_MAX=1.0;
-function setScale(s){ orbWrap.style.setProperty('--s', s.toFixed(4)); }
-
-function fmt(sec){ const m=Math.floor(sec/60), s=Math.floor(sec%60); return m+':'+String(s).padStart(2,'0'); }
+const S_MIN=0.62,S_MAX=1.0;
+function setScale(s){cur=s; orbWrap.style.setProperty('--s',s.toFixed(4));}
+function fmt(sec){const m=Math.floor(sec/60),s=Math.floor(sec%60);return m+':'+String(s).padStart(2,'0');}
 
 function start(){
-  const d=getDurations();
-  if((d[0]+d[2])<=0){ subEl.textContent='Inhale + exhale must be more than zero'; return; }
-  running=true; cycle=0; sessionStart=performance.now();
-  startBtn.style.display='none'; stopBtn.style.display='';
-  runCycle(d);
+  const steps=getSteps();
+  if(!steps||!steps.length){subEl.textContent='Pattern needs at least one phase';return;}
+  running=true;cycle=0;sessionStart=performance.now();
+  startBtn.style.display='none';stopBtn.style.display='';
+  runCycle(steps);
 }
-
-function runCycle(d){
-  if(!running) return;
+function runCycle(steps){
+  if(!running)return;
   const target=parseInt($('cycles').value,10);
-  if(target>0 && cycle>=target){ finish(); return; }
+  if(target>0&&cycle>=target){finish();return;}
   cycle++;
-  runPhase(d, 0);
+  runStep(steps,0);
 }
-
-function runPhase(d, i){
-  if(!running) return;
-  // skip zero-length phases
-  while(i<4 && d[i]<=0) i++;
-  if(i>=4){ runCycle(d); return; }
-
-  const dur=d[i]*1000, t0=performance.now();
-  const fromS = i===0 ? S_MIN : (i===1 ? S_MAX : (i===2 ? S_MAX : S_MIN));
-  const toS   = i===0 ? S_MAX : (i===1 ? S_MAX : (i===2 ? S_MIN : S_MIN));
-  phaseEl.textContent=PHASE_NAMES[i];
-  blip(PHASE_FREQ[i]);
-
+function runStep(steps,idx){
+  if(!running)return;
+  if(idx>=steps.length){runCycle(steps);return;}
+  const st=steps[idx], dur=st.t*1000, t0=performance.now();
+  const from=cur;
+  const fast=st.t<1.6;
+  const to = st.a==='in' ? (st.to??(fast?0.9:S_MAX))
+           : st.a==='out'? (fast?0.7:S_MIN)
+           : cur;
+  phaseEl.textContent=st.l;
+  if(st.t>=2) blip(PHASE_FREQ[st.a]||330);
   function tick(now){
-    if(!running) return;
-    const el=now-t0, p=Math.min(1, el/dur);
-    // ease in-out for breath phases, static for holds
-    const e = p<0.5 ? 2*p*p : 1-Math.pow(-2*p+2,2)/2;
-    setScale(fromS + (toS-fromS)*e);
-    countEl.textContent=Math.ceil((dur-el)/1000);
+    if(!running)return;
+    const el=now-t0,p=Math.min(1,el/dur);
+    const e=p<0.5?2*p*p:1-Math.pow(-2*p+2,2)/2;
+    setScale(from+(to-from)*e);
+    countEl.textContent=st.t>=2?Math.ceil((dur-el)/1000):'·';
     const target=parseInt($('cycles').value,10);
-    subEl.textContent='Cycle '+cycle+(target>0?' of '+target:'')+' \u00b7 '+fmt((now-sessionStart)/1000);
-    if(el<dur){ raf=requestAnimationFrame(tick); }
-    else runPhase(d, i+1);
+    subEl.textContent='Cycle '+cycle+(target>0?' of '+target:'')+' · '+fmt((now-sessionStart)/1000);
+    if(el<dur){raf=requestAnimationFrame(tick);}
+    else runStep(steps,idx+1);
   }
   raf=requestAnimationFrame(tick);
 }
-
 function finish(){
   stopCore();
   phaseEl.textContent='Done';
-  subEl.textContent=cycle+' cycles \u00b7 '+fmt((performance.now()-sessionStart)/1000);
+  subEl.textContent=cycle+' cycles · '+fmt((performance.now()-sessionStart)/1000);
   blip(523);
 }
 function stop(){
@@ -237,15 +392,16 @@ function stop(){
 }
 function stopCore(){
   running=false;
-  if(raf) cancelAnimationFrame(raf);
-  countEl.textContent='\u2013';
+  if(raf)cancelAnimationFrame(raf);
+  countEl.textContent='–';
   setScale(0.72);
-  startBtn.style.display=''; stopBtn.style.display='none';
+  startBtn.style.display='';stopBtn.style.display='none';
 }
 
 startBtn.onclick=start;
 stopBtn.onclick=stop;
 setScale(0.72);
+renderChips();
 </script>
 </body>
 </html>
