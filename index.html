@@ -72,7 +72,8 @@ h1{font-weight:300; font-size:20px; letter-spacing:.35em; text-transform:upperca
 .inner #holdDash{fill:none; stroke:rgba(47,143,129,.45); stroke-width:1.2; stroke-dasharray:3 5; opacity:0; transition:opacity .4s ease}
 .inner #prog{fill:none; stroke:rgba(47,143,129,.55); stroke-width:2; stroke-linecap:round; transform:rotate(-90deg); transform-origin:50% 50%}
 .count{position:relative; z-index:1; font-weight:200; font-size:clamp(36px,9.5vw,50px); color:var(--text); font-variant-numeric:tabular-nums}
-.phase{margin-top:20px; font-weight:400; font-size:19px; letter-spacing:.16em; text-transform:uppercase; min-height:26px; color:var(--accent); text-align:center; padding:0 8px}
+.phase{margin-top:20px; font-weight:400; font-size:19px; letter-spacing:.16em; text-transform:uppercase; min-height:26px; color:var(--accent); text-align:center; padding:0 8px; transition:opacity .25s ease}
+.phase.pre{opacity:.45}
 .sub{margin-top:8px; font-size:13px; color:var(--muted); min-height:18px; font-variant-numeric:tabular-nums; text-align:center}
 .controls{display:flex; gap:12px; align-items:center; margin-top:16px; flex-wrap:wrap; justify-content:center}
 .btn{
@@ -207,6 +208,10 @@ const PRESETS=[
 {id:'deep468',cat:'sleep',name:'Deep 4-6-8',cyc:8,
  desc:'The same architecture as 4-7-8 with a friendlier hold — a good on-ramp before graduating to the full version. In 4, hold 6, out 8, letting the body get heavier with each round.',
  steps:[I(4),H(6),O(8)]},
+{id:'s4168',cat:'sleep',name:'4-16-8',cyc:5,
+ desc:'The long-hold extension of 4-7-8 — same inhale and exhale, with the hold more than doubled, for nights when the standard version isn’t enough. In through the nose 4, hold 16, out through the mouth 8 with a soft whoosh. Lying down is fine; release the hold early whenever it strains.',
+ caution:'Long retention. Never force the hold — exhale early if needed.',
+ steps:[I(4),H(16),O(8,'Exhale · mouth')]},
 
 // ——— BALANCE / AUTONOMIC ———
 {id:'coh55',cat:'bal',name:'Coherent 5.5',cyc:20,
@@ -280,6 +285,7 @@ const PRESETS=[
 ];
 
 const PHASE_FREQ={in:392,out:262,hold:330};
+const GAP=500; // ms settle between phases; skipped around rapid-breath steps
 const $=id=>document.getElementById(id);
 const orbWrap=$('orbWrap'), orbEl=$('orb'), countEl=$('count'), phaseEl=$('phase'), subEl=$('sub');
 const startBtn=$('startBtn'), stopBtn=$('stopBtn'), descEl=$('desc'), cautionEl=$('caution');
@@ -288,7 +294,7 @@ const rips=[$('rip0'),$('rip1'),$('rip2')];
 const PROG_C=289.03; // 2*pi*46
 
 let activeCat='calm', selected=PRESETS[0];
-let running=false, raf=null, cycle=0, sessionStart=0, cur=0.62;
+let running=false, raf=null, cycle=0, sessionStart=0, cur=0.62, prevStep=null;
 
 const catWrap=$('cats'), pWrap=$('patterns');
 CATS.forEach(c=>{
@@ -398,7 +404,7 @@ function clearInner(){
 function start(){
   const steps=getSteps();
   if(!steps||!steps.length){subEl.textContent='Pattern needs at least one phase';return;}
-  running=true;cycle=0;sessionStart=performance.now();
+  running=true;cycle=0;sessionStart=performance.now();prevStep=null;
   startBtn.style.display='none';stopBtn.style.display='';
   runCycle(steps);
 }
@@ -412,9 +418,27 @@ function runCycle(steps){
 function runStep(steps,idx){
   if(!running)return;
   if(idx>=steps.length){runCycle(steps);return;}
-  const st=steps[idx], dur=st.t*1000, t0=performance.now();
+  const st=steps[idx], fast=st.t<1.6;
+  // 0.5 s settle between phases: orb rests, next label previews dimmed.
+  // Skipped before the first phase and around rapid-breath steps (<1.6 s).
+  if(prevStep && !fast && prevStep.t>=1.6){
+    clearInner();
+    phaseEl.textContent=st.l; phaseEl.classList.add('pre');
+    countEl.textContent='·';
+    settle(GAP,()=>{phaseEl.classList.remove('pre');beginStep(steps,idx,st,fast);});
+  } else beginStep(steps,idx,st,fast);
+}
+function settle(ms,then){
+  const g0=performance.now();
+  (function g(now){
+    if(!running)return;
+    if(now-g0<ms){raf=requestAnimationFrame(g);return;}
+    then();
+  })(g0);
+}
+function beginStep(steps,idx,st,fast){
+  const dur=st.t*1000, t0=performance.now();
   const from=cur;
-  const fast=st.t<1.6;
   const to = st.a==='in' ? (st.to??(fast?0.9:S_MAX))
            : st.a==='out'? (fast?0.7:S_MIN)
            : cur;
@@ -431,7 +455,7 @@ function runStep(steps,idx){
     const target=parseInt($('cycles').value,10);
     subEl.textContent='Cycle '+cycle+(target>0?' of '+target:'')+' · '+fmt((now-sessionStart)/1000);
     if(el<dur){raf=requestAnimationFrame(tick);}
-    else runStep(steps,idx+1);
+    else{prevStep=st;runStep(steps,idx+1);}
   }
   raf=requestAnimationFrame(tick);
 }
@@ -452,6 +476,7 @@ function stopCore(){
   countEl.textContent='–';
   setScale(0.72);
   orbEl.style.filter='';
+  phaseEl.classList.remove('pre');
   clearInner();
   startBtn.style.display='';stopBtn.style.display='none';
 }
