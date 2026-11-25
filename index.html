@@ -171,6 +171,7 @@ const CATS=[
   {id:'bal',  name:'Balance'},
   {id:'nrg',  name:'Energy'},
   {id:'trad', name:'Traditions'},
+  {id:'hlth', name:'Health'},
   {id:'cus',  name:'Custom'},
 ];
 
@@ -282,6 +283,24 @@ const PRESETS=[
  desc:'The full 1:4:2 benchmark from the Hatha Yoga Pradipika — the classical measure of a mature practice. In 4, hold 16, out 8; the texts insist the breath be tamed “by slow degrees,” never by force.',
  caution:'Advanced retention. Seated only, never strain, exhale early if needed.',
  steps:[I(4),H(16),O(8)]},
+
+// ——— HEALTH (may help — small trials, not medical treatment) ———
+{id:'hmig',cat:'hlth',name:'Migraine · Alt. Nostril',cyc:15,
+ desc:'May help reduce how often migraines come. An 86-patient randomized trial had people do alternate nostril breathing three times a day for three months, alongside their usual care, and attacks became less frequent. Thumb closes the right nostril: in left 4. Ring finger closes the left: out right 6, in right 4, out left 6. About 5 minutes; repeat morning, midday and evening.',
+ caution:'May help — small trial, not a medical treatment. Keep taking prescribed migraine medication.',
+ steps:[I(4,'Inhale · left nostril'),O(6,'Exhale · right nostril'),I(4,'Inhale · right nostril'),O(6,'Exhale · left nostril')]},
+{id:'hreflux',cat:'hlth',name:'After-Meal Belly Breath',cyc:160,
+ desc:'May help ease reflux and belching. Small randomized trials had reflux patients do slow belly breathing for 30 minutes after each meal. Sit upright, one hand on the belly: the belly rises as you breathe in and falls as you breathe out, chest staying still. Runs about 30 minutes; stop sooner if you like.',
+ caution:'May help — small trials with mixed results, not a medical treatment.',
+ steps:[I(4,'Inhale · belly rises'),O(6,'Exhale · belly falls')]},
+{id:'hbowel',cat:'hlth',name:'Bowel · Belly Breath',cyc:30,
+ desc:'Supports easier bowel movements; it is a helper, not a fix on its own. Constipation programs teach belly breathing together with posture and abdominal exercises. Sit with feet raised on a stool, lean slightly forward, let the belly swell on the inhale and keep the pelvic floor relaxed on the long exhale. Do not strain. About 5 minutes.',
+ caution:'May help — studied only as part of a larger program. See a doctor for lasting constipation.',
+ steps:[I(4,'Inhale · belly swells'),O(6,'Exhale · relax, no strain')]},
+{id:'hsigh',cat:'hlth',name:'Stress · 5-Min Sigh',cyc:25,
+ desc:'May help lower daily stress and lift mood. A 114-person Stanford trial found five minutes a day of cyclic sighing improved mood more than mindfulness meditation. Big inhale through the nose, a short second sniff to top up, then one long slow sigh out the mouth. About 5 minutes, once a day.',
+ caution:'May help — not a treatment for anxiety or depression.',
+ steps:[I(2.5,'Inhale · nose',0.86),I(1,'Top-up inhale',1),O(7,'Exhale · mouth')]},
 ];
 
 const PHASE_FREQ={in:392,out:262,hold:330};
@@ -335,7 +354,15 @@ function selectPreset(p,btn){
   if(btn) btn.classList.add('active');
   descEl.textContent=p.desc||'';
   cautionEl.textContent=p.caution||'';
-  if(p.cyc){ $('cycles').value=String(p.cyc); }
+  if(p.cyc){
+    const sel=$('cycles'), v=String(p.cyc);
+    if(![...sel.options].some(o=>o.value===v)){
+      const o=document.createElement('option'); o.value=v; o.textContent=v;
+      const after=[...sel.options].find(x=>+x.value>p.cyc);
+      sel.insertBefore(o, after||null);
+    }
+    sel.value=v;
+  }
 }
 
 function getSteps(){
